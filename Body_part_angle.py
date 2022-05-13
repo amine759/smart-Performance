@@ -18,7 +18,7 @@ class BodyPartAngle:
             hip = detection_body_part(self.landmarks,"RIGHT_HIP")
             knee = detection_body_part(self.landmarks,"RIGHT_KNEE")
             ankle = detection_body_part(self.landmarks,"RIGHT_ANKLE")
-        else : 
+        else :  
             print("zyer am3elm hhh")
             return    
         return calculate_angle(hip,knee, ankle)
@@ -28,16 +28,33 @@ class BodyPartAngle:
         if side == "left":
             hip = detection_body_part(self.landmarks,"LEFT_SHOULDER")
             knee = detection_body_part(self.landmarks,"LEFT_ELBOW")
-            ankle = detection_body_part(self.landmarks,"LEFT_WRIST")
+            ankle = detection_body_part(self.landmarks,"LEFT_WRIST")    
         elif side == "right":
             hip = detection_body_part(self.landmarks,"RIGHT_SHOULDER")
             knee = detection_body_part(self.landmarks,"RIGHT_ELBOW")
             ankle = detection_body_part(self.landmarks,"RIGHT_WRIST")
-        else : 
-            print("zyer am3elm hhh")
+        else :
+            print('zyer a m3elm')
             return    
         return calculate_angle(hip,knee, ankle)  
 
+    def angle_sit_up(self):
+        r_shoulder = detection_body_part(self.landmarks, "RIGHT_SHOULDER")
+        l_shoulder = detection_body_part(self.landmarks, "LEFT_SHOULDER")
+        shoulder_avg = [(r_shoulder[0] + l_shoulder[0]) / 2,
+                        (r_shoulder[1] + l_shoulder[1]) / 2]
+
+        # calculate angle of the avg hip
+        r_hip = detection_body_part(self.landmarks, "RIGHT_HIP")
+        l_hip = detection_body_part(self.landmarks, "LEFT_HIP")
+        hip_avg = [(r_hip[0] + l_hip[0]) / 2, (r_hip[1] + l_hip[1]) / 2]
+
+        # calculate angle of the avg knee
+        r_knee = detection_body_part(self.landmarks, "RIGHT_KNEE")
+        l_knee = detection_body_part(self.landmarks, "LEFT_KNEE")
+        knee_avg = [(r_knee[0] + l_knee[0]) / 2, (r_knee[1] + l_knee[1]) / 2]
+
+        return calculate_angle(shoulder_avg, hip_avg, knee_avg)
 
     def put_angle(self,frame):
         center = self.angle_squat()

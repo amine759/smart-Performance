@@ -26,7 +26,7 @@ def detection_body_part(landmarks, body_part_name):
         landmarks[mp_pose.PoseLandmark[body_part_name].value].x,
         landmarks[mp_pose.PoseLandmark[body_part_name].value].y,
         landmarks[mp_pose.PoseLandmark[body_part_name].value].visibility
-    ] 
+    ]
 
 def put_angle(frame,values): 
     cv2.putText(frame, str(values),(50, 50),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0),2, cv2.LINE_AA)
@@ -37,10 +37,7 @@ def assume_right_pose(left_angle,right_angle):
     if bias < 10 :
         return 1.0
     return 1 - 0.01*abs(bias-15)
-    
 
-def collect_data(reps,angle_rep,score,valid):
-    return [reps,angle_rep,score,valid]
 
 def right_pose(score_position_rep):
     if score_position_rep < 0.8 :

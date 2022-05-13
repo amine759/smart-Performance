@@ -7,38 +7,31 @@ from utils import *
 class TypeOfExercise(BodyPartAngle):
     def __init__(self,landmarks): 
         super().__init__(landmarks)
-        
-        
-    def squat(self, frame): 
-        
-        left_leg_angle = self.angle_squat(side='left')
-        right_leg_angle = self.angle_squat(side='right')
-        avg_leg_angle = (left_leg_angle +right_leg_angle)//2 
-        score_position_rep = assume_right_pose(left_leg_angle, right_leg_angle)
-        valid = right_pose(score_position_rep)
 
-        put_angle(frame,avg_leg_angle)
+    def estimate_exercise(self,type,frame):
 
-        return [avg_leg_angle, score_position_rep, valid]
-
-    def estimate_exercice(self, type, frame):
         if type == 'squat':
-            data = self.squat(frame)
-        elif type == 'push_ups' : 
-            counter, avg_arm_angle, score_position_rep,right_pose  = TypeOfExercise(self.landmarks).push_ups(frame)        
-        return data
-        
-    def push_ups(self, counter, status, frame):
-        left_arm_angle = self.angle_push_ups(side='left')
-        right_arm_angle = self.angle_push_ups(side='right')
-        avg_arm_angle = (left_arm_angle + right_arm_angle) // 2
-        put_angle(frame,avg_arm_angle)
+            left_angle = self.angle_squat(side='left')
+            right_angle = self.angle_squat(side='right')
+            score_position_rep = assume_right_pose(left_angle,right_angle)  
 
-        if status:
-            if left_arm_angle < 95:
-                counter += 1
-                status = False
-        else:
-            if left_arm_angle > 160:
-                status = True
-        return counter, avg_arm_angle, score_position_rep,right_pose   
+        if type == 'push_ups' or 'pull_ups':
+            left_angle = self.angle_push_ups(side='left')
+            right_angle = self.angle_push_ups(side='right')
+            y_coordinate_left = detection_body_part(self.landmarks,"LEFT_SHOULDER")[1]
+            y_coordinate_right = detection_body_part(self.landmarks,"RIGHT_SHOULDER")[1]
+            score_position_rep = assume_right_pose(y_coordinate_left, y_coordinate_right)
+        
+        if type == 'sit_up':
+            avg_angle = self.angle_sit_up()
+            y_coordinate_left = detection_body_part(self.landmarks,"LEFT_SHOULDER")[1]
+            y_coordinate_right = detection_body_part(self.landmarks,"RIGHT_SHOULDER")[1]
+            score_position_rep = assume_right_pose(y_coordinate_left, y_coordinate_right)
+
+        if type!='sit_up':
+            avg_angle = (left_angle + right_angle)//2
+        
+        valid = right_pose(score_position_rep)
+        put_angle(frame,avg_angle)
+
+        return round(avg_angle),score_position_rep,valid

@@ -9,19 +9,25 @@ from PoseEstimation import poseDetector
 
 def main():
     cap = cv2.VideoCapture('videos/player1/squat0.mp4')
+    cap2 = cv2.VideoCapture('videos/player1/push_up1.mp4')
+    cap3 = cv2.VideoCapture('videos/player1/pull_ups1.mp4')
+    cap4 = cv2.VideoCapture('videos/player1/sit_up1.mp4')
+
     detector = poseDetector()
     reps=0
     collect=[]
     der=0
-    while cap.isOpened():
-        ret, frame = cap.read()
+    while cap4.isOpened():
+        ret, frame = cap4.read()
         if ret :
             frame = cv2.resize(frame,(940,520), interpolation = cv2.INTER_AREA)
             results = detector.findPose(frame)
             try :
                 landmarks = results.pose_landmarks.landmark
-                angles,scores,valid = TypeOfExercise(landmarks).estimate_exercice('squat',frame)
-                per = np.interp(angles, (90, 160), (0, 100))
+                angles,scores,valid = TypeOfExercise(landmarks).estimate_exercise('sit_up',frame)
+
+                per = np.interp(angles, (70, 100), (0, 100))
+
                 if per == 100: 
                     if der == 0 : 
                         reps+=0.5

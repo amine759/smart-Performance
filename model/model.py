@@ -12,7 +12,7 @@ reconstructed_LRCN = load_model("model/LRCN_model.h5")
 
 cap3 = cv2.VideoCapture('videos/player1/pull_ups1.mp4')
 detector = poseDetector()
-SEQUENCE_LENGTH = 20
+SEQUENCE_LENGTH = 120
 IMAGE_HEIGHT , IMAGE_WIDTH = 64, 64
 CLASSES_LIST= ["PushUps","PullUps","TennisSwing","Basketball","HighJump","SoccerJuggling"]
 
@@ -66,6 +66,4 @@ class exercise_Recognition():
                 break
             cv2.putText(frame, predicted_class_name, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
-            video_writer.write(frame)    
-        video_writer.release()
-
+            video_writer.write(frame)

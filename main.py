@@ -13,22 +13,24 @@ def main():
     cap2 = cv2.VideoCapture('videos/player1/push_up1.mp4')
     cap3 = cv2.VideoCapture('videos/player1/pull_ups1.mp4')
     cap4 = cv2.VideoCapture('videos/player1/sit_up1.mp4')
-    output_video_file_path = 'output/output1.mp4'
+    output_video_file_path = 'output/output2.mp4'
 
     detector = poseDetector()
     reps=0
     der=0
     model = exercise_Recognition()
-
+    i=0
     while cap3.isOpened():
         ret, frame = cap3.read()
+        i+=1
         if ret :
             frame = cv2.resize(frame,(940,520), interpolation = cv2.INTER_AREA)
             results = detector.findPose(frame)
             try :
                 landmarks = results.pose_landmarks.landmark
-
+                
                 predicted_class = model.predict_on_video(cap3, frame)
+                print(predicted_class)
                 model.write_predictions(cap3,predicted_class, output_video_file_path)
 
                 cv2.putText(frame, predicted_class, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
@@ -55,9 +57,7 @@ def main():
         else :
             print('could not read frame')
 
-        if cv2.waitKey(10) & 0xFF == ord('q'):
-            break
-        
+        if cv2.waitKey(10) & 0xFF == ord('q'): break   
 
 if __name__ == '__main__':
     main()

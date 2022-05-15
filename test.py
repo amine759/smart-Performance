@@ -64,7 +64,7 @@ while cap3.isOpened():
         results = detector.findPose(frame)
         try :
             landmarks = results.pose_landmarks.landmark
-            predict_on_video(cap3,output_video_file_path)
+            predict_on_video(cap3, output_video_file_path)
         except : 
             pass
         cv2.imshow("frames", frame)

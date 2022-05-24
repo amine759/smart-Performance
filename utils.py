@@ -7,6 +7,16 @@ import cv2
 
 mp_pose = mp.solutions.pose
 
+class Config():
+    SEQUENCE_LENGTH = 20
+    IMAGE_HEIGHT , IMAGE_WIDTH = 64, 64
+    CLASSES_LIST= ["PushUps","PullUps","TennisSwing","Basketball","HighJump","SoccerJuggling"]
+
+def preprocess_frames(frame):
+    resized_frame = cv2.resize(frame,(Config().IMAGE_HEIGHT,Config().IMAGE_WIDTH))
+    return resized_frame / 255
+
+    
 def calculate_angle(a,b,c):
     a = np.array(a) # First
     b = np.array(b) # Mid
@@ -21,7 +31,7 @@ def calculate_angle(a,b,c):
 
 
 def detection_body_part(landmarks, body_part_name):
-
+    
     return [
         landmarks[mp_pose.PoseLandmark[body_part_name].value].x,
         landmarks[mp_pose.PoseLandmark[body_part_name].value].y,

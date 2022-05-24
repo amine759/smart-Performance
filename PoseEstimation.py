@@ -1,11 +1,7 @@
-import datetime
-import time
-from threading import Thread
 import cv2
 from exercices_types import TypeOfExercise
 import numpy as np
 
-import imutils
 from utils import *
 import mediapipe as mp
 from Body_part_angle import BodyPartAngle

@@ -22,7 +22,7 @@ def main():
     reps=0
     der=0
     model = exercise_Recognition()
-    frames_queue = deque(maxlen = 20)
+    frames_queue = deque(maxlen = config.SEQUENCE_LENGTH)
     
     while True :
         ret, frame = cap3.read()
@@ -37,7 +37,7 @@ def main():
         try :
             landmarks = results.pose_landmarks.landmark
 
-            if len(frames_queue) == 20 :
+            if len(frames_queue) == config.SEQUENCE_LENGTH :
                 predicted_class = model.predict_on_video(frames_queue)
             
             cv2.putText(frame, predicted_class, (40, 100), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 6)

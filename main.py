@@ -7,23 +7,26 @@ from Body_part_angle import BodyPartAngle
 from PoseEstimation import poseDetector
 from model.model import exercise_Recognition
 from collections import deque
+from datetime import date
+from post import * 
+
+today = date.today()
+d1 = today.strftime("%d/%m/%Y")
 
 
 config = Config()
 
 def main():
-    cap = cv2.VideoCapture('videos/player1/squat0.mp4')
-    cap2 = cv2.VideoCapture('videos/player1/push_up1.mp4')
-    cap3 = cv2.VideoCapture('videos/player1/pull_ups1.mp4')
-    cap4 = cv2.VideoCapture('videos/player1/sit_up1.mp4')
-    output_file_path = 'output/output0.mp4'
+    cap2 = cv2.VideoCapture('videos/player1/pull_ups1C.mp4')
+    cap3 = cv2.VideoCapture('videos/player1/pushups1C.mp4')
 
     detector = poseDetector()
     reps=0
     der=0
     model = exercise_Recognition()
     frames_queue = deque(maxlen = config.SEQUENCE_LENGTH)
-    
+    counts=[]
+    score=[]
     while True :
         ret, frame = cap3.read()
         if not ret :
@@ -40,8 +43,7 @@ def main():
             if len(frames_queue) == config.SEQUENCE_LENGTH :
                 predicted_class = model.predict_on_video(frames_queue)
             
-            cv2.putText(frame, predicted_class, (40, 100), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 6)
-
+            cv2.putText(frame, str(predicted_class), (40, 100), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 6)
             #model.write_predictions(frame,cap3,predicted_class, output_video_file_path)
         
             angles,scores,valid = TypeOfExercise(landmarks).estimate_exercise(predicted_class,frame)
@@ -57,12 +59,21 @@ def main():
                     reps+=0.5
                     count=int(reps)
                     print([count,angles,scores,valid])
+                    score.append(scores)
                     der = 0
         except : 
             pass
         cv2.imshow("frames", frame)
-        if cv2.waitKey(10) & 0xFF == ord('q'): break  
+        if cv2.waitKey(10) & 0xFF == ord('q'): 
+            break  
 
+    data = {
+        "testDate" :d1 ,
+        "evaluation" :max(score),
+        "repetitions": count,
+        "exercise":predicted_class}
+    print(data)
+    send_data(data)
 
 if __name__ == '__main__':
     main()

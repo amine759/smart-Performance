@@ -28,7 +28,7 @@ def main():
     counts=[]
     score=[]
     while True :
-        ret, frame = cap3.read()
+        ret, frame = cap2.read()
         if not ret :
             print('could not read frame')
             break
@@ -61,7 +61,7 @@ def main():
                     print([count,angles,scores,valid])
                     score.append(scores)
                     der = 0
-        except : 
+        except :
             pass
         cv2.imshow("frames", frame)
         if cv2.waitKey(10) & 0xFF == ord('q'): 

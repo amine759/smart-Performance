@@ -54,7 +54,3 @@ def right_pose(score_position_rep):
         return False
     return True
 
-
-def save_data(data):
-    df = pd.DataFrame(data,columns=['REPS','ANGLES','right_pose'])
-    df.to_excel('data.xls') 

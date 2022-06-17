@@ -1,2 +1,2 @@
-# smart performance
-##  exercise recognition and performance prediction with tensorflow and pose estimation
+## smart performance
+###  exercise recognition and performance estimation with tensorflow, opencv, pose estimation

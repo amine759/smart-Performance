@@ -25,9 +25,7 @@ class exercise_Recognition():
     def predict_on_video(self,frames_queue):
 
         predicted_labels_probabilities = self.model.predict(np.expand_dims(frames_queue, axis = 0))[0]
-
         predicted_label = np.argmax(predicted_labels_probabilities)
-
         predicted_class_name = self.classes[predicted_label]
 
         return predicted_class_name

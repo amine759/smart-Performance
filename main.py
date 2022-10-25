@@ -17,7 +17,7 @@ d1 = today.strftime("%d/%m/%Y")
 config = Config()
 
 def main():
-    cap2 = cv2.VideoCapture('videos/player1/pull_ups1C.mp4')
+    #cap2 = cv2.VideoCapture('videos/player1/pull_ups1C.mp4')
     cap3 = cv2.VideoCapture('videos/player1/pushups1C.mp4')
 
     detector = poseDetector()
@@ -28,7 +28,7 @@ def main():
     counts=[]
     score=[]
     while True :
-        ret, frame = cap2.read()
+        ret, frame = cap3.read()
         if not ret :
             print('could not read frame')
             break
@@ -73,7 +73,7 @@ def main():
         "repetitions": count,
         "exercise":predicted_class}
     print(data)
-    send_data(data)
+    #send_data(data)
 
 if __name__ == '__main__':
     main()

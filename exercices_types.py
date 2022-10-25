@@ -1,4 +1,3 @@
-from itertools import count
 import numpy as np
 from Body_part_angle import BodyPartAngle
 from utils import *

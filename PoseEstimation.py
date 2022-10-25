@@ -1,11 +1,9 @@
 import cv2
 from exercices_types import TypeOfExercise
+from Body_part_angle import BodyPartAngle
 import numpy as np
-
 from utils import *
 import mediapipe as mp
-from Body_part_angle import BodyPartAngle
-
 
 
 class poseDetector():

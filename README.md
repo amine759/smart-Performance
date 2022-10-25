@@ -1,2 +1,3 @@
-## smart performance
-###  exercise recognition and performance estimation with tensorflow, opencv, pose estimation
+## Smart Performance
+### Exercise Recognition and Performance Estimation with Tensorflow, Opencv, Pose estimation\
+### Classification model was trained on UCF50 dataset

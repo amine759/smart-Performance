@@ -37,7 +37,6 @@ class exercise_Recognition():
         original_video_height = int(video_reader.get(cv2.CAP_PROP_FRAME_HEIGHT))
         
         video_writer = cv2.VideoWriter(output_file_path, cv2.VideoWriter_fourcc('M', 'P', '4', 'V'), video_reader.get(cv2.CAP_PROP_FPS), (original_video_width, original_video_height))
-
         cv2.putText(frame, predicted_class_name, (40, 100), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 6)
 
         video_writer.write(frame)

@@ -1,5 +1,3 @@
-import re
-from turtle import right
 import mediapipe as mp
 import pandas as pd
 import numpy as np

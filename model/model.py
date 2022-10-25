@@ -14,25 +14,22 @@ detector = poseDetector()
 config = Config()
 
 class exercise_Recognition():
-    def __init__(self, sequence_length=config.SEQUENCE_LENGTH , image_height = config.IMAGE_HEIGHT, image_width = config.IMAGE_WIDTH, classes=config.CLASSES_LIST, model=LRCN_model):
+    def __init__(self,sequence_length,image_height,image_width,classes,model):
 
-        self.sequence_length = sequence_length
-        self.image_height = image_height
-        self.image_width = image_width
-        self.classes = classes
-        self.model = model
+        self.sequence_length = config.SEQUENCE_LENGTH
+        self.image_height = config.IMAGE_HEIGHT
+        self.image_width =  config.IMAGE_WIDTH
+        self.classes = config.CLASSES_LIST
+        self.model = LRCN_model
 
     def predict_on_video(self,frames_queue):
-
         predicted_labels_probabilities = self.model.predict(np.expand_dims(frames_queue, axis = 0))[0]
         predicted_label = np.argmax(predicted_labels_probabilities)
         predicted_class_name = self.classes[predicted_label]
 
         return predicted_class_name
 
-
     def write_predictions(self,video_reader,output_file_path, frame, predicted_class_name):
-
         original_video_width = int(video_reader.get(cv2.CAP_PROP_FRAME_WIDTH))
         original_video_height = int(video_reader.get(cv2.CAP_PROP_FRAME_HEIGHT))
         
@@ -41,6 +38,3 @@ class exercise_Recognition():
 
         video_writer.write(frame)
         video_writer.release()
-
-
-

@@ -13,13 +13,11 @@ from post import *
 today = date.today()
 d1 = today.strftime("%d/%m/%Y")
 
-
 config = Config()
 
 def main():
     #cap2 = cv2.VideoCapture('videos/player1/pull_ups1C.mp4')
     cap3 = cv2.VideoCapture('videos/player1/pushups1C.mp4')
-
     detector = poseDetector()
     reps=0
     der=0
@@ -32,24 +30,22 @@ def main():
         if not ret :
             print('could not read frame')
             break
-        frame = cv2.resize(frame,(940,520), interpolation = cv2.INTER_AREA)
 
+        frame = cv2.resize(frame,(940,520), interpolation = cv2.INTER_AREA)
         normalized_frame = preprocess_frames(frame) 
         frames_queue.append(normalized_frame)
         results = detector.findPose(frame)
+
         try :
             landmarks = results.pose_landmarks.landmark
-
             if len(frames_queue) == config.SEQUENCE_LENGTH :
                 predicted_class = model.predict_on_video(frames_queue)
-            
+
             cv2.putText(frame, str(predicted_class), (40, 100), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 6)
             #model.write_predictions(frame,cap3,predicted_class, output_video_file_path)
-        
+
             angles,scores,valid = TypeOfExercise(landmarks).estimate_exercise(predicted_class,frame)
-
             per = np.interp(angles, (70, 100), (0, 100))
-
             if per == 100: 
                 if der == 0 : 
                     reps+=0.5

@@ -14,7 +14,6 @@ def preprocess_frames(frame):
     resized_frame = cv2.resize(frame,(Config().IMAGE_HEIGHT,Config().IMAGE_WIDTH))
     return resized_frame / 255
 
-    
 def calculate_angle(a,b,c):
     a = np.array(a) # First
     b = np.array(b) # Mid
@@ -29,7 +28,6 @@ def calculate_angle(a,b,c):
 
 
 def detection_body_part(landmarks, body_part_name):
-    
     return [
         landmarks[mp_pose.PoseLandmark[body_part_name].value].x,
         landmarks[mp_pose.PoseLandmark[body_part_name].value].y,
@@ -46,9 +44,7 @@ def assume_right_pose(left_angle,right_angle):
         return 1.0
     return 1 - 0.01*abs(bias-15)
 
-
 def right_pose(score_position_rep):
     if score_position_rep < 0.8 :
         return False
     return True
-
